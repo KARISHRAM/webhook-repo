@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webhook Data</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        h1 { color: #333; }
+        ul { list-style-type: none; padding: 0; }
+        li { padding: 10px; border-bottom: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+    <h1>Webhook Data</h1>
+    <ul id="data-list"></ul>
+    
+    <script>
+        function fetchLatestData() {
+            fetch('/latest')
+                .then(response => response.json())
+                .then(data => {
+                    const list = document.getElementById('data-list');
+                    list.innerHTML = '';  // Clear existing content
+                    
+                    data.forEach(item => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = item.text;
+                        list.appendChild(listItem);
+                    });
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+
+        setInterval(fetchLatestData, 15000);
+
+        fetchLatestData();
+    </script>
+</body>
+</html>
